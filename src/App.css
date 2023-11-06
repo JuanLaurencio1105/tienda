@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@layer base {
+  html {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+  }
+
+  li {
+    list-style-type: none;
+  }
+}
+
+@layer components {
+
+  .form-group {
+    @apply h-auto w-full relative;
+  }
+
+  .input {
+    @apply border-[1px] border-solid border-gris rounded-lg text-dark w-full py-2 px-3 bg-transparent leading-relaxed outline-none transition-all duration-200 ease-linear motion-reduce:transition-none hover:border-[1px] hover:border-solid hover:border-dark focus:border-[1px] focus:border-solid focus:border-dark text-sm;
+  }
+
+  .label {
+    @apply text-dark text-opacity-60 pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate leading-relaxed transition-all  ease-out motion-reduce:transition-none translate-y-2 duration-300;
+  }
+  .input:focus~.label,
+  .input:not(:placeholder-shown)+.label {
+    @apply bg-dark rounded-md text-base py-0 px-1 text-white transform -translate-y-3 -translate-x-3 scale-75;
+  }
+
+  .active {
+    @apply text-violet-500;
+  }
+
+  .link {
+    @apply text-blank rounded-md hover:text-dark hover:bg-gris active:bg-green focus:bg-gris focus:text-dark;
+  }
+
+  .btn-menu {
+    @apply bg-blank rounded-lg w-8 h-8 text-dark flex items-center justify-center text-xl hover:bg-gris;
+  }
+
+  .btn-menu-red {
+    @apply bg-red-500 rounded-lg w-8 h-8 text-dark flex items-center justify-center text-xl;
+  }
+
+  .btn-menu-hidden {
+    @apply border border-dark rounded-lg w-8 h-8 text-dark flex items-center justify-center text-xl absolute top-4 left-4 hover:bg-blank;
+  }
+
+  .card {
+    @apply w-full bg-green rounded-md overflow-hidden text-white p-4;
+  }
+
+  .table {
+    @apply w-full text-white overflow-x-scroll border-spacing-0;
+  }
+
+  .td {
+    @apply p-1 text-center text-white border-b border-b-white;
+  }
+
+}
+
+@layer utilities {}
