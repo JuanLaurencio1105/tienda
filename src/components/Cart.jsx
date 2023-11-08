@@ -13,7 +13,7 @@ const Cart = ({ title, closeModal, children }) => {
             <AiOutlineClose size={20} />
           </Button>
         </div>
-        <div>
+        <div className='px-4 mt-6'>
           {children}
         </div>
       </section>
