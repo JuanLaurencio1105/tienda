@@ -1,11 +1,17 @@
 import { createContext, useEffect, useState } from 'react'
+import { LocalStorageKeys } from '../utils/constants'
 
 const ClientContext = createContext()
 
 const ClientProvider = ({ children }) => {
-
-  const getClient = JSON.parse(localStorage.getItem('client')) || []
-  const [client, setClient] = useState(getClient)
+  const [client, setClient] = useState(() => {
+    try {
+      const data = JSON.parse(localStorage.getItem(LocalStorageKeys.CLIENT))
+      return data ? data : null
+    } catch (error) {
+      return null
+    }
+  })
 
   useEffect(() => {
     const savedClient = JSON.parse(localStorage.getItem('client'))
