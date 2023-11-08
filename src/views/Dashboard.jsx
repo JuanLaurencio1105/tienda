@@ -1,20 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
-import axios from '../api/axios'
+// import axios from '../api/axios'
 import Button from '../components/Button'
 import NavBar from '../navmenu/NavBar'
-import { IoCartSharp } from 'react-icons/io5'
-import useModal from '../hooks/useModal'
-import Cart from '../components/Cart'
+// import { IoCartSharp } from 'react-icons/io5'
+// import useModal from '../hooks/useModal'
+// import Cart from '../components/Cart'
 import { useProductContext } from '../context/ProductContext'
-import { Link, useAsyncError } from 'react-router-dom'
-import { CartContext } from '../context/CartContext'
+// import { Link, useAsyncError } from 'react-router-dom'
+// import { CartContext } from '../context/CartContext'
+import { NewCartContext } from '../context/NewCartContext'
 
 const Dashboard = () => {
 
   const [totalItemsCart, setTotalItemsCart] = useState(0)
   // const { isOpen, openModal, closeModal } = useModal()
   const { allProducts } = useProductContext()
-  const { addCarrito } = useContext(CartContext)
+  const cartContext = useContext(NewCartContext)
 
   // const [carrito, setCarrito] = useState([])
 
@@ -87,20 +88,33 @@ const Dashboard = () => {
         <div className='mt-4 px-10 bg-red-300'>
           <h2 className='text-center'>LISTA DE PRODUCTOS</h2>
           <ul className='grid grid-cols-3 gap-4 mt-9'>
-            {
-              allProducts.map((producto, index) => (
-                <li className='flex flex-col bg-green p-4 rounded-xl'
-                  key={index}>
-                  {producto.nameProduct} - S/.{producto.price.toFixed(2)}
-                  <span>{producto.description} - stock {producto.stock}</span>
-                  <Button
-                    type='primary'
-                    onClick={() => addCarrito(producto.id)}
-                  >
-                    AGREGAR AL CARRITO
-                  </Button>
-                </li>
-              ))
+            {allProducts.map((producto, index) => (
+              <li className='flex flex-col bg-green p-4 rounded-xl'
+                key={index}>
+                {producto.nameProduct} - S/.{producto.price.toFixed(2)}
+                <span>{producto.description} - stock {producto.stock}</span>
+
+                <div className='mt-4'>
+                  {cartContext.findItemInCart({ productId: producto.id }) && (
+                    <Button
+                      type='danger'
+                      onClick={() => cartContext.removeFromCart({ productId: producto.id })}
+                    >
+                      ELIMINAR DEL CARRITO
+                    </Button>
+                  )}
+
+                  {!cartContext.findItemInCart({ productId: producto.id }) && (
+                    <Button
+                      type='primary'
+                      onClick={() => cartContext.addToCart({ product: producto })}
+                    >
+                      AGREGAR AL CARRITO
+                    </Button>
+                  )}
+                </div>
+              </li>
+            ))
             }
           </ul>
         </div>
