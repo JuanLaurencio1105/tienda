@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 export default axios.create({
-  baseURL: 'http://localhost:8080/api/'
+  baseURL: 'https://c9zs3z6r-8080.brs.devtunnels.ms/api/'
 })
