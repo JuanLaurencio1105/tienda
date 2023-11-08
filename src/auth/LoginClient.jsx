@@ -1,25 +1,30 @@
 import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from '../api/axios'
-import { ClientContext } from '../context/ClientContext'
 import FormInput from '../form/FormInput'
 import Button from '../components/Button'
+import Loader from '../components/Loader'
 import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContextProvider'
 
 const LoginClient = () => {
-
   const [loged, setLoged] = useState('')
-  const { login } = useContext(ClientContext)
+  const [isLoading, setIsLoading] = useState(false)
+  const authContext = useContext(AuthContext)
   const navigate = useNavigate()
 
   const onSubmit = async (data) => {
+    setIsLoading(true)
     try {
       const response = await axios.post('clientes/auth/login', data)
-      login(response.data)
+      authContext.loginClient({ client: response.data })
+      setIsLoading(false)
       navigate('/cart')
     } catch (error) {
       console.log(error)
       setLoged(error.response.data)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -59,14 +64,12 @@ const LoginClient = () => {
             <Button
               type='primary'
             >
-              ENVIAR
+              {isLoading ? <Loader /> : 'ENVIAR'}
             </Button>
           </div>
-          {
-            loged === 'EL USUARIO NO ESTA AUTORIZADO' && (
+          {loged === 'EL USUARIO NO ESTA AUTORIZADO' && (
               <span>ERROR DE AUTENTICACION</span>
-            )
-          }
+            )}
         </form>
       </div>
     </div>
