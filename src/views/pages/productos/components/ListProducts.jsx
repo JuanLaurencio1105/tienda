@@ -9,7 +9,7 @@ import EditProduct from './EditProduct'
 import axios from '../../../../api/axios'
 import CustomAlert from '../../../../components/CustomAlert'
 
-const ListProducts = ({ productos, index, getProducts }) => {
+const ListProducts = ({ productos, index, getProducts, toast }) => {
 
   const [handleModal, setHandleModal] = useState(null)
 
@@ -28,10 +28,12 @@ const ListProducts = ({ productos, index, getProducts }) => {
   const deleteProduct = async () => {
     try {
       const response = await axios.delete(`productos/${productos.id}`)
+      toast({ type: 'success', message: 'Producto Eliminado con Exito' })
       handleCloseModal()
       getProducts()
       console.log(response.data)
     } catch (error) {
+      toast({ type: 'success', message: 'Error al Eliminar el Producto' })
       console.log(error)
     }
   }
@@ -40,8 +42,8 @@ const ListProducts = ({ productos, index, getProducts }) => {
     <tr>
       <td className='td'>{index + 1}</td>
       <td className='td'>{productos?.nameProduct}</td>
-      <td className='td'>{productos?.price}</td>
-      <td className='td'>{productos?.stock}</td>
+      <td className='td'>S./ {productos?.price.toFixed(2)}</td>
+      <td className='td'>{productos?.stock}/Uds.</td>
       <td className='td'>{productos?.categoria?.nameCategory || 'NO AGREGADO'}</td>
       <td className='td'>
         <div className='flex justify-center gap-2'>
@@ -69,7 +71,7 @@ const ListProducts = ({ productos, index, getProducts }) => {
               getProductos={getProducts}
               closeModal={handleCloseModal}
               productos={productos}
-
+              toast={toast}
             />
           )
         }

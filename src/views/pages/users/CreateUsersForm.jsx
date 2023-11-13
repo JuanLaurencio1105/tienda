@@ -3,19 +3,29 @@ import axios from '../../../api/axios'
 import Modal from '../../../components/Modal'
 import FormInput from '../../../form/FormInput'
 import Button from '../../../components/Button'
+import { useState } from 'react'
+import Loader from '../../../components/Loader'
 
-const CreateUsersForm = ({ closeModal, getUser }) => {
+const CreateUsersForm = ({ closeModal, getUser, toast }) => {
 
   const { register, handleSubmit, formState: { errors } } = useForm()
+  const [isLoading, setIsLoading] = useState(false)
 
   const onSubmit = async (data) => {
+    setIsLoading(true)
+
     try {
       const response = await axios.post('auth', data)
+      toast({ type: 'success', message: 'Usuario Registrado con Exito' })
       console.log(response.data)
       getUser()
-      closeModal()
+      setIsLoading(false)
     } catch (error) {
+      toast({ type: 'error', message: 'Error al Registrar el Usuario' })
       console.log(error)
+    } finally {
+      setIsLoading(false)
+      closeModal()
     }
   }
 
@@ -24,7 +34,7 @@ const CreateUsersForm = ({ closeModal, getUser }) => {
       <form onSubmit={handleSubmit(onSubmit)} method='post' className='flex flex-col gap-4'>
         <FormInput
           type='text'
-          label='NOMBRE DE USUARIO'
+          label='Nombre de Usuario'
           name='userName'
           register={register}
           rules={{ required: true }}
@@ -32,7 +42,7 @@ const CreateUsersForm = ({ closeModal, getUser }) => {
         />
         <FormInput
           type='text'
-          label='CORREO ELECTRONICO'
+          label='Correo Electronico'
           name='email'
           register={register}
           rules={{ required: true }}
@@ -40,17 +50,23 @@ const CreateUsersForm = ({ closeModal, getUser }) => {
         />
         <FormInput
           type='text'
-          label='CONTRASEÑA'
+          label='Contraseña'
           name='password'
           register={register}
           rules={{ required: true }}
           errors={errors}
         />
-        <div className='flex justify-end items-center pb-4'>
+        <div className='flex justify-end items-center pb-4 gap-4'>
           <Button
             type='primary'
           >
-            REGISTRAR
+            {isLoading ? <Loader /> : 'Registrar'}
+          </Button>
+          <Button
+            onClick={closeModal}
+            type='secondary'
+          >
+            Cancelar
           </Button>
         </div>
       </form>

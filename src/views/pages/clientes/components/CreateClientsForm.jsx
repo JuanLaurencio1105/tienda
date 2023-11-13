@@ -2,15 +2,30 @@ import { useForm } from 'react-hook-form'
 import axios from '../../../../api/axios'
 import FormInput from '../../../../form/FormInput'
 import Button from '../../../../components/Button'
-const CreateClientsForm = ({ getClients, closeModal }) => {
+import { useState } from 'react'
+import Loader from '../../../../components/Loader'
+import toast, { Toaster } from 'react-hot-toast'
+const CreateClientsForm = ({ getClients, closeModal, toast }) => {
 
   const { handleSubmit, register, formState: { errors } } = useForm()
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const onSubmit = async (data) => {
-    await axios.post('clientes', data)
-    getClients()
-    closeModal()
-    console.log(data)
+    setIsLoading(true)
+    try {
+      const response = await axios.post('clientes', data)
+      console.log(response.data)
+      toast({ type: 'success', message: 'Cliente Registrado con exito' })
+      getClients()
+      setIsLoading(false)
+    } catch (error) {
+      console.error(error)
+      toast({ type: 'error', message: 'Error el Registar el Cliente' })
+    } finally {
+      setIsLoading(false)
+      closeModal()
+    }
   }
 
   return (
@@ -58,10 +73,20 @@ const CreateClientsForm = ({ getClients, closeModal }) => {
           rules={{ required: true }}
           errors={errors}
         />
+      </div>
+      <div className='flex gap-4'>
         <FormInput
           type='text'
           label={'DIRECCION'}
           name='address'
+          register={register}
+          rules={{ required: true }}
+          errors={errors}
+        />
+        <FormInput
+          type='text'
+          label={'CONTRASEÑA'}
+          name='password'
           register={register}
           rules={{ required: true }}
           errors={errors}
@@ -71,15 +96,16 @@ const CreateClientsForm = ({ getClients, closeModal }) => {
         <Button
           type='primary'
         >
-          REGISTRAR
+          {isLoading ? <Loader /> : 'Registrar'}
         </Button>
         <Button
-          type='primary'
+          type='secondary'
           onClick={closeModal}
         >
-          CANCELAR
+          Cancelar
         </Button>
       </div>
+
     </form>
   )
 }

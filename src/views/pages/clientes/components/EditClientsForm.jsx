@@ -2,17 +2,30 @@ import { useForm } from 'react-hook-form'
 import axios from '../../../../api/axios'
 import Modal from '../../../../components/Modal'
 import FormInput from '../../../../form/FormInput'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Button from '../../../../components/Button'
-const EditClientsForm = ({ closeModal, cliente, getCliente }) => {
+import Loader from '../../../../components/Loader'
+const EditClientsForm = ({ closeModal, cliente, getCliente, toast }) => {
 
+  const [isLoading, setIsLoading] = useState(false)
   const { handleSubmit, reset, register, formState: { errors } } = useForm()
 
   const onUpdate = async (data) => {
-    const response = await axios.put(`clientes/${cliente.id}`, data)
-    console.log(response.data)
-    closeModal()
-    getCliente()
+    setIsLoading(true)
+
+    try {
+      const response = await axios.put(`clientes/${cliente.id}`, data)
+      console.log(response.data)
+      getCliente()
+      setIsLoading(false)
+      toast({ type: 'success', message: 'Cliente Actualizado con Exito' })
+    } catch (error) {
+      console.error(error)
+      toast({ type: 'error', message: 'Error al Actualizar el Cliente' })
+    } finally {
+      setIsLoading(false)
+      closeModal()
+    }
   }
 
   useEffect(() => {
@@ -23,7 +36,8 @@ const EditClientsForm = ({ closeModal, cliente, getCliente }) => {
       lastNames: cliente.lastNames,
       email: cliente.email,
       phoneNumber: cliente.phoneNumber,
-      address: cliente.address
+      address: cliente.address,
+      password: cliente.password
     })
   }, [])
 
@@ -68,10 +82,19 @@ const EditClientsForm = ({ closeModal, cliente, getCliente }) => {
             register={register}
             errors={errors}
           />
+        </div>
+        <div className='flex gap-4'>
           <FormInput
             type='text'
             label={'DIRECCION'}
             name='address'
+            register={register}
+            errors={errors}
+          />
+          <FormInput
+            type='text'
+            label={'CONTRASEÑA'}
+            name='password'
             register={register}
             errors={errors}
           />
@@ -80,10 +103,10 @@ const EditClientsForm = ({ closeModal, cliente, getCliente }) => {
           <Button
             type='primary'
           >
-            REGISTRAR
+            {isLoading ? <Loader /> : 'ACTUALIZAR'}
           </Button>
           <Button
-            type='primary'
+            type='secondary'
             onClick={closeModal}
           >
             CANCELAR

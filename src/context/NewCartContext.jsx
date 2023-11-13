@@ -36,7 +36,7 @@ const NewCartProvider = ({ children }) => {
         if (item.id === productId) {
           return {
             ...item,
-            stock: item.stock + 1,
+            stock: item.stock - 1,
             quantity: item.quantity + 1
           }
         }
@@ -51,7 +51,7 @@ const NewCartProvider = ({ children }) => {
         if (item.id === productId) {
           return {
             ...item,
-            stock: item.stock - 1,
+            stock: item.stock + 1,
             quantity: item.quantity - 1
           }
         }

@@ -1,24 +1,24 @@
-import { BrowserRouter } from 'react-router-dom'
-import './App.css'
 import Router from './router/Router'
+import { BrowserRouter } from 'react-router-dom'
 import { ProductProvider } from './context/ProductContext'
-import { CartProvider } from './context/CartContext'
 import { NewCartProvider } from './context/NewCartContext'
 import { AuthContextProvider } from './context/AuthContextProvider'
+import { UserProvider } from './context/UserContext'
+import './App.css'
 
 function App() {
   return (
-    <AuthContextProvider>
-      <ProductProvider>
-        <NewCartProvider>
-          <CartProvider>
+    <UserProvider>
+      <AuthContextProvider>
+        <ProductProvider>
+          <NewCartProvider>
             <BrowserRouter>
               <Router />
             </BrowserRouter>
-          </CartProvider>
-        </NewCartProvider>
-      </ProductProvider>
-    </AuthContextProvider>
+          </NewCartProvider>
+        </ProductProvider>
+      </AuthContextProvider>
+    </UserProvider>
   )
 }
 

@@ -4,20 +4,26 @@ import FormInput from '../../../../form/FormInput'
 import { useEffect, useState } from 'react'
 import axios from '../../../../api/axios'
 import Button from '../../../../components/Button'
+import Loader from '../../../../components/Loader'
 
-const EditProduct = ({ closeModal, getProductos, productos }) => {
+const EditProduct = ({ closeModal, getProductos, productos, toast }) => {
 
   const [category, setCategory] = useState([])
   const { register, handleSubmit, reset, formState: { errors } } = useForm()
-
+  const [isLoading, setIsLoading] = useState(false)
   const onUpdate = async (data) => {
+    setIsLoading(true)
     try {
       await axios.put(`productos/${productos.id}`, data)
+      toast({ type: 'success', message: 'Producto Actualizado con Exito' })
       getProductos()
-      closeModal()
-      // console.log(data)
+      console.log(data)
     } catch (error) {
+      toast({ type: 'error', message: 'Error al Actualizar el Producto ' })
       console.log(error)
+    } finally {
+      setIsLoading(false)
+      closeModal()
     }
   }
 
@@ -45,7 +51,7 @@ const EditProduct = ({ closeModal, getProductos, productos }) => {
         <FormInput
           type='text'
           errors={errors}
-          label='NOMBRE DEL PRODUCTO'
+          label='Nombre del Producto'
           name='nameProduct'
           register={register}
           rules={{ required: true }}
@@ -53,7 +59,7 @@ const EditProduct = ({ closeModal, getProductos, productos }) => {
         <FormInput
           type='text'
           errors={errors}
-          label='DESCRIPCION'
+          label='Descripcion'
           name='description'
           register={register}
           rules={{ required: true }}
@@ -61,7 +67,7 @@ const EditProduct = ({ closeModal, getProductos, productos }) => {
         <FormInput
           type='text'
           errors={errors}
-          label='PRECIO'
+          label='Precio'
           name='price'
           register={register}
           rules={{ required: true }}
@@ -69,13 +75,13 @@ const EditProduct = ({ closeModal, getProductos, productos }) => {
         <FormInput
           type='text'
           errors={errors}
-          label='CANTIDAD'
+          label='Cantidad'
           name='stock'
           register={register}
           rules={{ required: true }}
         />
         <div className='form-group'>
-          <select className='input'
+          <select className='input bg-darkPrimary'
             {...register('categoria.categoriaID')}
           >
             {
@@ -90,11 +96,17 @@ const EditProduct = ({ closeModal, getProductos, productos }) => {
             }
           </select>
         </div>
-        <div>
+        <div className='flex justify-end gap-4 pb-2'>
           <Button
             type='primary'
           >
-            ACTUALIZAR
+            {isLoading ? <Loader /> : 'Actualizar'}
+          </Button>
+          <Button
+            onClick={closeModal}
+            type='secondary'
+          >
+            Cancelar
           </Button>
         </div>
       </form>

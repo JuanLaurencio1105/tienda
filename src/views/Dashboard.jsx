@@ -9,6 +9,7 @@ import { useProductContext } from '../context/ProductContext'
 // import { Link, useAsyncError } from 'react-router-dom'
 // import { CartContext } from '../context/CartContext'
 import { NewCartContext } from '../context/NewCartContext'
+import { BsCart4, BsCartX } from 'react-icons/bs'
 
 const Dashboard = () => {
 
@@ -51,7 +52,7 @@ const Dashboard = () => {
   }, [])
 
   return (
-    <div>
+    <div className='bg-[#F1F0E8]'>
       {/* {isOpen && (
         <Cart title='PRODUCTOS DEL CARRITO' closeModal={closeModal}>
           {
@@ -85,22 +86,40 @@ const Dashboard = () => {
         </Button>
       </div> */}
       <section>
-        <div className='mt-4 px-10 bg-red-300'>
-          <h2 className='text-center'>LISTA DE PRODUCTOS</h2>
-          <ul className='grid grid-cols-3 gap-4 mt-9'>
+        <div className='mt-4 px-10'>
+          <h2 className='text-center text-3xl font-bold'>LISTA DE PRODUCTOS</h2>
+          <ul className='grid grid-cols-4 gap-4 mt-9'>
             {allProducts.map((producto, index) => (
-              <li className='flex flex-col bg-green p-4 rounded-xl'
+              <li className='flex flex-col bg-white p-4 rounded-xl'
                 key={index}>
-                {producto.nameProduct} - S/.{producto.price.toFixed(2)}
-                <span>{producto.description} - stock {producto.stock}</span>
+                <img
+                  src={'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fkaranzi.websites.co.in%2Fobaju-turquoise%2Fimg%2Fproduct-placeholder.png&f=1&nofb=1&ipt=68a69f71f60f6c31003a2fd0525cc0c53621063c0119dfe6dbb74a8eac7a8bba&ipo=images'}
+                  alt="Imagen del producto"
+                  className='h-36 w-52 mx-auto rounded-md object-cover object-center'
+                />
+                <p className='text-center mt-4 font-bold text-xl'>{producto.nameProduct}</p>
+                <div>
+                  <p>{producto.description}</p>
+                  <div className='flex justify-between mt-2'>
+                    <p className='text-sm'>Precio: <span className='bg-lime-300 border border-black px-2 py-1 rounded-md text-black font-medium text-lg'>S./ {producto.price.toFixed(2)}</span></p>
+                    <p className='text-sm'>Stock: <span className='bg-red-200 border border-black px-2 py-1 rounded-md text-black font-medium text-lg'>{producto.stock} uds.</span></p>
+                  </div>
+                </div>
+                {/* <div className='flex justify-between'>
+                  <p></p>
+                  <span></span>
+                </div> */}
 
-                <div className='mt-4'>
+                <div className='mt-4 mx-auto'>
                   {cartContext.findItemInCart({ productId: producto.id }) && (
                     <Button
                       type='danger'
                       onClick={() => cartContext.removeFromCart({ productId: producto.id })}
                     >
-                      ELIMINAR DEL CARRITO
+                      <p className='font-medium flex items-start gap-2'>
+                        <span>ELIMINAR DEL CARRITO</span>
+                        <BsCartX size={20} />
+                      </p>
                     </Button>
                   )}
 
@@ -109,7 +128,10 @@ const Dashboard = () => {
                       type='primary'
                       onClick={() => cartContext.addToCart({ product: producto })}
                     >
-                      AGREGAR AL CARRITO
+                      <p className='font-medium flex items-start gap-2'>
+                        <span>AGREGAR AL CARRITO</span>
+                        <BsCart4 size={20} />
+                      </p>
                     </Button>
                   )}
                 </div>

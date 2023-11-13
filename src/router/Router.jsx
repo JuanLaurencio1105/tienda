@@ -3,7 +3,7 @@ import ProtectedRoute from '../utils/ProtectedRoute'
 import Dashboard from '../views/Dashboard'
 import Clients from '../views/pages/clientes/Clients'
 import Login from '../auth/Login'
-import Home from '../views/pages/Home'
+import Users from '../views/pages/Users'
 import Products from '../views/pages/productos/Products'
 import Pedidos from '../views/pages/pedidos/Pedidos'
 import AboutUs from '../views/pages/nosotros/AboutUs'
@@ -21,7 +21,7 @@ const Router = () => {
       <Route path='/cart' element={<Carrito />} />
       <Route element={<ProtectedRoute />}>
         <Route path='/clientes' element={<Clients />} />
-        <Route path='/inicio' element={<Home />} />
+        <Route path='/usuarios' element={<Users />} />
         <Route path='/productos' element={<Products />} />
         <Route path='/pedidos' element={<Pedidos />} />
       </Route>

@@ -3,20 +3,26 @@ import FormInput from '../../../../form/FormInput'
 import axios from '../../../../api/axios'
 import Button from '../../../../components/Button'
 import { useEffect, useState } from 'react'
-const AddProduct = ({ closeModal, getProducts }) => {
+import Loader from '../../../../components/Loader'
+const AddProduct = ({ closeModal, getProducts, toast }) => {
 
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const [category, setCategory] = useState([])
-
+  const [isLoading, setIsLoading] = useState(false)
   const onSubmit = async (data) => {
+    setIsLoading(true)
     try {
       const response = await axios.post('productos', data)
-      closeModal()
+      toast({ type: 'success', message: 'Producto Registrado con Exito' })
       getProducts()
-      // console.log(response.data)
+      console.log(response.data)
     } catch (error) {
+      toast({ type: 'error', message: 'Error al Agregar el Producto' })
       console.log(error)
+    } finally {
+      setIsLoading(false)
+      closeModal()
     }
   }
 
@@ -33,7 +39,7 @@ const AddProduct = ({ closeModal, getProducts }) => {
     <form onSubmit={handleSubmit(onSubmit)} method='post' className='flex flex-col gap-4 px-2'>
       <FormInput
         type='text'
-        label='NOMBRE DEL PRODUCTO'
+        label='Nombre del Producto'
         name='nameProduct'
         register={register}
         rules={{ required: true }}
@@ -41,7 +47,7 @@ const AddProduct = ({ closeModal, getProducts }) => {
       />
       <FormInput
         type='text'
-        label='DESCRIPCION'
+        label='Descripcion'
         name='description'
         register={register}
         rules={{ required: true }}
@@ -49,7 +55,7 @@ const AddProduct = ({ closeModal, getProducts }) => {
       />
       <FormInput
         type='text'
-        label='PRECIO'
+        label='Precio'
         name='price'
         register={register}
         rules={{ required: true }}
@@ -57,14 +63,14 @@ const AddProduct = ({ closeModal, getProducts }) => {
       />
       <FormInput
         type='text'
-        label='CANTIDAD (STOCK)'
+        label='Cantidad (Stock)'
         name='stock'
         register={register}
         rules={{ required: true }}
         errors={errors}
       />
       <div className='form-group'>
-        <select className='input'
+        <select className='input bg-darkPrimary'
           {...register('categoria.categoriaID')}
         >
           {
@@ -79,19 +85,17 @@ const AddProduct = ({ closeModal, getProducts }) => {
           }
         </select>
       </div>
-      {/* <FormInput
-        type='text'
-        label='CATEGORIA PRODUCTO (ID)'
-        name={'categoria.categoriaID'}
-        register={register}
-        rules={{ required: true }}
-        errors={errors}
-      /> */}
-      <div className='pb-2 flex justify-end'>
+      <div className='pb-2 flex justify-end gap-4'>
         <Button
           type='primary'
         >
-          REGISTRAR
+          {isLoading ? <Loader /> : 'Registrar'}
+        </Button>
+        <Button
+          onClick={closeModal}
+          type='secondary'
+        >
+          Cancelar
         </Button>
       </div>
     </form>

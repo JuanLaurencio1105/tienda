@@ -2,20 +2,28 @@ import { useForm } from 'react-hook-form'
 import Modal from '../../../components/Modal'
 import FormInput from '../../../form/FormInput'
 import Button from '../../../components/Button'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import axios from '../../../api/axios'
+import Loader from '../../../components/Loader'
 
-const EditUserForm = ({ closeModal, user, getUser }) => {
+const EditUserForm = ({ closeModal, user, getUser, toast }) => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm()
+  const [isLoading, setIsLoading] = useState(false)
 
   const onSubmit = async (data) => {
+    setIsLoading(true)
     try {
       const response = await axios.put(`auth/${user.id}`, data)
+      toast({ type: 'success', message: 'Usuario Actualizado Correctamente' })
       console.log(response)
+      setIsLoading(false)
       getUser()
-      closeModal()
     } catch (error) {
+      toast({ type: 'success', message: 'Error al Actualizar el Usuario ' })
       console.log(error)
+    } finally {
+      setIsLoading(false)
+      closeModal()
     }
   }
   useEffect(() => {
@@ -32,7 +40,7 @@ const EditUserForm = ({ closeModal, user, getUser }) => {
         <form onSubmit={handleSubmit(onSubmit)} method='post' className='flex flex-col gap-4'>
           <FormInput
             type='text'
-            label='NOMBRE DE USUARIO'
+            label='Nombre de Usuario'
             name='userName'
             register={register}
             rules={{ required: true }}
@@ -40,7 +48,7 @@ const EditUserForm = ({ closeModal, user, getUser }) => {
           />
           <FormInput
             type='text'
-            label='CORREO ELECTRONICO'
+            label='Correo Electronico'
             name='email'
             register={register}
             rules={{ required: true }}
@@ -48,17 +56,23 @@ const EditUserForm = ({ closeModal, user, getUser }) => {
           />
           <FormInput
             type='text'
-            label='CONTRASEÑA'
+            label='Contraseña'
             name='password'
             register={register}
             rules={{ required: true }}
             errors={errors}
           />
-          <div className='flex justify-center pb-4'>
+          <div className='flex justify-end pb-4 gap-4'>
             <Button
               type='primary'
             >
-              REGISTRAR
+              {isLoading ? <Loader /> : 'Actualizar'}
+            </Button>
+            <Button
+              onClick={closeModal}
+              type='secondary'
+            >
+              Cancelar
             </Button>
           </div>
         </form>

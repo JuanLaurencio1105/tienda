@@ -11,20 +11,20 @@ const CustomAlert = ({ type = 'default', title, closeAlert, setData, message }) 
           type === 'default' && (
             <div className='flex flex-col gap-4'>
               <div className='flex justify-between items-center py-2'>
-                <p className='text-orange-500 font-medium text-2xl'>{title || 'Titulo del Modal'}</p>
+                <p className='text-red-500 font-medium text-2xl'>{title || 'Titulo del Modal'}</p>
                 <button onClick={closeAlert}>
                   <AiOutlineCloseCircle className='cursor-pointer text-3xl text-white' />
                 </button>
               </div>
               <div className='flex flex-col justify-center items-center'>
-                <FiAlertTriangle className='text-orange-500'
+                <FiAlertTriangle className='text-red-500'
                   size={150}
                 />
                 <p className='text-white text-xl max-w-xs text-center'>{message}</p>
               </div>
               <div className='flex justify-end gap-4'>
-                <Button type='primary' onClick={closeAlert}>CANCELAR</Button>
-                <Button type='primary' onClick={setData}>OK</Button>
+                <Button type='secondary' onClick={closeAlert}>Cancelar</Button>
+                <Button type='primary' onClick={setData}>Ok</Button>
               </div>
             </div>
           )

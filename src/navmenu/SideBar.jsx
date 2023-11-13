@@ -19,8 +19,8 @@ const SideBar = () => {
   return (
     <>
       {isOpen && (
-        <header className='text-dark bg-red-400 h-screen flex flex-col justify-start gap-4 p-4 w-48 min-h-full lg:w-56'>
-          <div className='w-full flex justify-between items-center animate-duration-500 animate-ease-linear py-2'>
+        <header className='text-white bg-darkPrimary h-full flex flex-col justify-start gap-4 px-4 py-5 w-48 min-h-screen lg:w-64 border-r border-darkSecondary'>
+          <div className='w-full flex justify-between items-center animate-duration-500 animate-ease-linear py-1'>
             <Link>
               <p className='text-xl font-semibold'>DASHBOARD</p>
             </Link>
@@ -32,7 +32,7 @@ const SideBar = () => {
             </Button>
           </div>
           <hr />
-          <p className='text-sm '>contenido</p>
+          <p className='text-xs'>contenido</p>
           <ul>
             <NavLink
               to='/dashboard'
@@ -45,8 +45,8 @@ const SideBar = () => {
               icon={<AiOutlineUser size={23} />}
             />
             <NavLink
-              to='/inicio'
-              text='INICIO'
+              to='/usuarios'
+              text='USUARIOS'
               icon={<AiOutlineHome size={23} />}
             />
             <NavLink
@@ -59,15 +59,6 @@ const SideBar = () => {
               text='PEDIDOS'
               icon={<AiOutlineHome size={23} />}
             />
-            {/* {pages.map((page, index) => (
-              <li key={page}>
-                <NavLink
-                  to={page}
-                  text={page}
-                  icon={React.createElement(icons[index], { size: 25 })}
-                />
-              </li>
-            ))} */}
           </ul>
         </header>
       )}

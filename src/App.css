@@ -27,11 +27,11 @@
   }
 
   .input {
-    @apply border-[1px] border-solid border-gris rounded-lg text-dark w-full py-2 px-3 bg-transparent leading-relaxed outline-none transition-all duration-200 ease-linear motion-reduce:transition-none hover:border-[1px] hover:border-solid hover:border-dark focus:border-[1px] focus:border-solid focus:border-dark text-sm;
+    @apply border-[1px] border-solid border-gris rounded-lg text-white w-full py-2 px-3 bg-transparent leading-relaxed outline-none transition-all duration-200 ease-linear motion-reduce:transition-none hover:border-[1px] hover:border-solid hover:border-dark focus:border-[1px] focus:border-solid focus:border-dark text-sm;
   }
 
   .label {
-    @apply text-dark text-opacity-60 pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate leading-relaxed transition-all  ease-out motion-reduce:transition-none translate-y-2 duration-300;
+    @apply text-gris text-opacity-60 pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate leading-relaxed transition-all  ease-out motion-reduce:transition-none translate-y-2 duration-300;
   }
   .input:focus~.label,
   .input:not(:placeholder-shown)+.label {
@@ -43,7 +43,7 @@
   }
 
   .link {
-    @apply text-blank rounded-md hover:text-dark hover:bg-gris active:bg-green focus:bg-gris focus:text-dark;
+    @apply text-blank rounded-md hover:text-lightGreen hover:bg-darkSecondary active:bg-darkSecondary focus:bg-gris focus:text-lightGreen;
   }
 
   .btn-menu {
@@ -59,15 +59,15 @@
   }
 
   .card {
-    @apply w-full bg-green rounded-md overflow-hidden text-white p-4;
+    @apply w-full bg-darkPrimary rounded-md overflow-hidden text-white p-4;
   }
 
   .table {
-    @apply w-full text-white overflow-x-scroll border-spacing-0;
+    @apply w-full text-gris overflow-x-scroll border-spacing-0;
   }
 
   .td {
-    @apply p-1 text-center text-white border-b border-b-white;
+    @apply p-1 text-center text-gris border-b border-b-darkSecondary;
   }
 
 }

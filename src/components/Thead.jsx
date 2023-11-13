@@ -6,7 +6,7 @@ const Thead = ({ headers }) => {
       <tr>
         {
           headers.map((header) => (
-            <th className='py-1 px-4 border-b border-gray' key={header}>
+            <th className='py-1 px-4 border-b border-darkSecondary' key={header}>
               {header}
             </th>
           ))

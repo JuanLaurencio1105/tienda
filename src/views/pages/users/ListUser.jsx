@@ -9,7 +9,7 @@ import EditUserForm from './EditUserForm'
 import CustomAlert from '../../../components/CustomAlert'
 import axios from '../../../api/axios'
 
-const ListUser = ({ user, getUser, index }) => {
+const ListUser = ({ user, getUser, index, toast }) => {
 
   const { openModal, closeModal, isOpen } = useModal()
 
@@ -28,8 +28,14 @@ const ListUser = ({ user, getUser, index }) => {
   }
 
   const deleteUser = async () => {
-    await axios.delete(`auth/${user.id}`)
-    getUser()
+    try {
+      await axios.delete(`auth/${user.id}`)
+      toast({ type: 'success', message: 'Usuario Eliminado con Exito' })
+      getUser()
+    } catch (error) {
+      toast({ type: 'error', message: 'Error al Eliminar el Usuario ' })
+      console.error(error)
+    }
   }
 
   return (
@@ -64,7 +70,9 @@ const ListUser = ({ user, getUser, index }) => {
           <EditUserForm
             user={user}
             getUser={getUser}
-            closeModal={handleCloseModal} />
+            closeModal={handleCloseModal}
+            toast={toast}
+          />
         )
       }
       {

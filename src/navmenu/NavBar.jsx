@@ -14,34 +14,6 @@ const NavBar = () => {
   const { isOpen, openModal, closeModal } = useModal()
   const authContext = useContext(AuthContext)
   const cartContext = useContext(NewCartContext)
-  // const { allProducts } = useProductContext()
-  // const [carrito, setCarrito] = useState([])
-
-  // const removeItemCart = (productId) => {
-  //   const storedCart = JSON.parse(localStorage.getItem('cart')) || []
-  //   const updateCart = storedCart.filter(id => id !== productId)
-  //   localStorage.setItem('cart', JSON.stringify(updateCart))
-  //   setCarrito(carrito.filter((product) => product.id !== productId))
-  //   // setTotalItemsCart(updateCart.length)
-  // }
-
-  // useEffect(() => {
-  //   const cartStored = JSON.parse(localStorage.getItem('cart')) || []
-  //   const cartProductsData = allProducts.filter(product => cartStored.includes(product.id))
-  //   setCarrito(cartProductsData)
-  // }, [])
-  // const [totalItemsCart, setTotalItemsCart] = useState(0)
-  // const [cartProducts, setCartProducts] = useState([])
-  // const { removeItemCart } = useContext(CartContext)
-  // const { allProducts } = useProductContext()
-
-
-  // useEffect(() => {
-  //   const storedCart = JSON.parse(localStorage.getItem('cart')) || []
-  //   const cartProductsData = allProducts.filter(product => storedCart.includes(product.id)).map(product => ({ ...product, quantity: 1 }))
-  //   setCartProducts(cartProductsData)
-  //   setTotalItemsCart(storedCart.length)
-  // }, [allProducts])
 
   return (
     <header className='flex justify-between items-center px-4 py-2 bg-dark w-full'>
@@ -101,32 +73,12 @@ const NavBar = () => {
               ))}
             </ul>
           )}
-          {/* {
-            carrito.length > 0 ? (
-              <ul className='flex flex-col gap-4 p-4'>
-                {carrito.map((productoId, index) => {
-                  const product = allProducts.find(p => p.id === productoId)
-                  return (
-                    <li key={index} className='bg-white rounded-md py-2 px-4 flex justify-between'>
-                      {product ? `${product.nameProduct} - S/. ${product.price}` : 'producto no encontrado'}
-                      {productoId.nameProduct} - S/.{productoId.price}
-                      <button className='text-black hover:text-red-500' onClick={() => removeItemCart(productoId.id)}>Eliminar</button>
-                    </li>
-                  )
-                })}
-                <Link to='/cart'>
-                  <Button type='primary'>
-                    Ir al carrito
-                  </Button>
-                </Link>
-              </ul>
-            ) : (
-              <p>CARRITO VACIO</p>
-            )
-          } */}
         </Cart>
       )}
-      <Link className=''>TIENDA ABARROTES</Link>
+      <div className='flex gap-4'>
+        <Link className=''>TIENDA ABARROTES</Link>
+        <Link className='' to={'/clientes'}>INICIAR COMO ADMINISTRADOR</Link>
+      </div>
       <Button type='cart' total={cartContext.cartLength} onClick={openModal}>
         <IoCartSharp size={25}></IoCartSharp>
       </Button>
@@ -151,29 +103,6 @@ const NavBar = () => {
           to='/cart'
           icon={<AiOutlineAmazon size={20} />}
         />
-        {/*
-          !client ? (
-            <Link to='/login/cli'>
-              <Button
-                type='primary'
-              >
-                INICIAR SESION
-              </Button>
-            </Link>
-
-          ) : (
-            <>
-              <p>{client}</p>
-              <Button
-                onClick={logout}
-                type='primary'
-              >
-                Cerrar Sesion
-              </Button>
-            </>
-          )
-        */}
-
         <li>
           <MenuUser />
         </li>

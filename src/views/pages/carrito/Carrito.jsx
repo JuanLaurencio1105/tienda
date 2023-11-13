@@ -9,24 +9,25 @@ import { NewCartContext } from '@/context/NewCartContext'
 import { AuthContext } from '../../../context/AuthContextProvider'
 
 const Carrito = () => {
-  const [cartProducts, setCartProducts] = useState([])
-  const { allProducts } = useProductContext()
+  // const [cartProducts, setCartProducts] = useState([])
+  // const { allProducts } = useProductContext()
   const cartContext = useContext(NewCartContext)
   const authContext = useContext(AuthContext)
 
 
-  useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem('cart')) || []
-    const cartProductsData = allProducts.filter(product => storedCart.includes(product.id)).map(product => ({ ...product, quantity: 1 }))
-    setCartProducts(cartProductsData)
-    // setTotalItemsCart(storedCart.length)
-  }, [allProducts])
+  // useEffect(() => {
+  //   const storedCart = JSON.parse(localStorage.getItem('cart')) || []
+  //   const cartProductsData = allProducts.filter(product => storedCart.includes(product.id)).map(product => ({ ...product, quantity: 1 }))
+  //   setCartProducts(cartProductsData)
+  //   // setTotalItemsCart(storedCart.length)
+  // }, [allProducts])
 
   const calcularTotal = () => {
     let total = 0
 
-    for (const producto of cartProducts) {
+    for (const producto of cartContext.cart) {
       total += producto.price * producto.quantity
+      console.log(producto)
     }
     return total.toFixed(2)
   }
@@ -137,7 +138,7 @@ const Carrito = () => {
           <section className='w-[500px] card max-h-60 flex flex-col gap-6 text-black'>
             <p className='text-center text-black font-medium '>Resumen del pedido ({cartContext.cartLength})</p>
             <div className='w-full'>
-              {cartProducts.length > 0 ? (
+              {cartContext.cart.length > 0 ? (
                 <p className='flex justify-between font-extrabold'>
                   <span>TOTAL</span>
                   <span>S./{calcularTotal()}</span>
